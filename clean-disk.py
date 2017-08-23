@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import sys
 
 '''
@@ -20,7 +21,10 @@ is normally 512 bytes.
       fd.seek(disk_size - 34*512)
       fd.write('\0' * 34 * 512)
       print "done nuking data at the end of disk", target
-
+      print "re-read partitiontable of disk", target
+      cmd = "blockdev --rereadpt " + target
+      os.system(cmd)
+      
 if __name__ == '__main__':
       for x in sys.argv[1:]:
               clear_gpt(x)
